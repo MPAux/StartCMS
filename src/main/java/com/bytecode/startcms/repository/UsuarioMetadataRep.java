@@ -1,5 +1,7 @@
 package com.bytecode.startcms.repository;
 
-public interface UsuarioMetadataRep {
+import com.bytecode.startcms.model.UsuarioMetadata;
+
+public interface UsuarioMetadataRep extends BaseRep<UsuarioMetadata> {
 
 }

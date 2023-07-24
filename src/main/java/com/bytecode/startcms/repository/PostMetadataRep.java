@@ -1,5 +1,7 @@
 package com.bytecode.startcms.repository;
 
-public interface PostMetadataRep {
+import com.bytecode.startcms.model.PostMetadata;
+
+public interface PostMetadataRep extends BaseRep<PostMetadata>{
 
 }

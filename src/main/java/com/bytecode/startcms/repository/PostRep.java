@@ -1,5 +1,7 @@
 package com.bytecode.startcms.repository;
 
-public interface PostRep {
+import com.bytecode.startcms.model.Post;
+
+public interface PostRep extends BaseRep<Post>{
 
 }

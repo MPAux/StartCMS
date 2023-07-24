@@ -1,5 +1,7 @@
 package com.bytecode.startcms.repository;
 
-public interface GrupoRep {
+import com.bytecode.startcms.model.Grupo;
+
+public interface GrupoRep extends BaseRep<Grupo> {
 
 }
