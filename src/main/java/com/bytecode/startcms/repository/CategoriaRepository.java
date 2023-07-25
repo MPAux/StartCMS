@@ -22,6 +22,7 @@ public class CategoriaRepository implements CategoriaRep {
 	Log log = LogFactory.getLog(getClass());
 	@Autowired
 	private DataSource dataSource;
+	
 	private JdbcTemplate jdbcTemplate;
 	
 	@PostConstruct
