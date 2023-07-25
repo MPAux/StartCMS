@@ -1,5 +1,7 @@
 package com.bytecode.startcms.repository;
 
-public interface ComentarioRep {
+import com.bytecode.startcms.model.Comentario;
+
+public interface ComentarioRep extends BaseRep<Comentario>{
 
 }

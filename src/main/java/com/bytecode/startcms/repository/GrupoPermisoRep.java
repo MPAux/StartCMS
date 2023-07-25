@@ -1,5 +1,7 @@
 package com.bytecode.startcms.repository;
 
-public interface GrupoPermisoRep {
+import com.bytecode.startcms.model.GrupoPermiso;
+
+public interface GrupoPermisoRep extends BaseRep<GrupoPermiso> {
 
 }

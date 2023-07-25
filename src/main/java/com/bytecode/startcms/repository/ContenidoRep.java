@@ -1,5 +1,7 @@
 package com.bytecode.startcms.repository;
 
-public interface ContenidoRep {
+import com.bytecode.startcms.model.Contenido;
+
+public interface ContenidoRep extends BaseRep<Contenido> {
 
 }
