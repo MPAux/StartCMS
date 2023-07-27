@@ -2,6 +2,8 @@ package com.bytecode.startcms.repository;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +14,21 @@ import org.springframework.stereotype.Repository;
 import com.bytecode.startcms.mapper.GrupoPermisoMapper;
 import com.bytecode.startcms.model.GrupoPermiso;
 
+import jakarta.annotation.PostConstruct;
+
 @Repository
 public class GrupoPermisoRepository implements GrupoPermisoRep {
 	Log log = LogFactory.getLog(getClass());
 	
 	@Autowired
+	private DataSource dataSource;
+	
 	private JdbcTemplate jdbcTemplate;
+	
+	@PostConstruct
+	public void postConstruct() {
+		jdbcTemplate = new JdbcTemplate(dataSource);
+	}
 
 	@Override
 	public boolean save(GrupoPermiso object) {
@@ -46,8 +57,18 @@ public class GrupoPermisoRepository implements GrupoPermisoRep {
 	@Override
 	public GrupoPermiso findById(int Id) {
 		//Check this method id
-		Object[] params = {Id};
-		log.info("Getting GrupoPermiso by IdGrupo: "+Id);
-		return jdbcTemplate.queryForObject("select * from grupo_permiso where IdGrupo = ?", new GrupoPermisoMapper(), params);
+//		Object[] params = {Id};
+//		log.info("Getting GrupoPermiso by IdGrupo: "+Id);
+//		return jdbcTemplate.queryForObject("select * from grupo_permiso where IdGrupo = ?", new GrupoPermisoMapper(), params);
+		GrupoPermiso grupoPermiso = null;
+		return grupoPermiso;
+	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 }
