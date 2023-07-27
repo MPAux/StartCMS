@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,10 @@
 <body>
 <div th:replace="~{@{administrator/components/nav}}"></div>
 
-<div class="h1">Categoria</div>
+<div class="container">
+    <div class="h1">Categoria</div>
+    <div th:replace="~{@{administrator/components/message_welcome}}"></div>
+</div>
 
     <div th:replace="~{@{administrator/components/script}}"></div>
 </body>

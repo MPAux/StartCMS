@@ -1,0 +1,14 @@
+<div class="alert alert-success" role="alert" th:switch="${requestUri}">
+    <span th:case="'/admin/'">
+        Bienvenido al inicio
+    </span>
+    <span th:case="'/admin/publicacion'">
+        Bienvenido a tus publicaciones
+    </span>
+    <span th:case="'/admin/categoria'">
+        Bienvenido a categorias
+    </span>
+    <span th:case="'/admin/usuario'">
+        Bienvenido a usuarios
+    </span>
+</div>
