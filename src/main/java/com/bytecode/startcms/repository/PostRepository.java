@@ -2,6 +2,8 @@ package com.bytecode.startcms.repository;
 
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +14,21 @@ import org.springframework.stereotype.Repository;
 import com.bytecode.startcms.mapper.PostMapper;
 import com.bytecode.startcms.model.Post;
 
+import jakarta.annotation.PostConstruct;
+
 @Repository
 public class PostRepository implements PostRep {
 	Log log = LogFactory.getLog(getClass());
 	
 	@Autowired
+	private DataSource dataSource;
+	
 	private JdbcTemplate jdbcTemplate;
+	
+	@PostConstruct
+	public void postConstruct() {
+		jdbcTemplate = new JdbcTemplate(dataSource);
+	}
 
 	@Override
 	public boolean save(Post object) {
@@ -42,8 +53,11 @@ public class PostRepository implements PostRep {
 					object.getTitulo(), object.getSlug(), object.getExtracto(), object.getIdUsuario(), object.getCategoria(), object.getImagenDestacada(), object.getTipo(), id
 					);
 			try {
-				jdbcTemplate.execute(sql);
-				return true;
+				int rowsAffected = jdbcTemplate.update(sql);
+				if(rowsAffected > 0) {
+					return true;
+				}
+				log.error("No se actualizó ninguna fila con la id "+id);
 			} catch (DataAccessException e) {
 				log.error("Hubo un problema actualizando en la BD los datos de la tabla "+this.getClass()+" - Id: "+id);
 				e.printStackTrace();
@@ -63,5 +77,13 @@ public class PostRepository implements PostRep {
 	public Post findById(int Id) {
 		Object[] params = {Id};
 		return jdbcTemplate.queryForObject("select * from post where IdPost = ?", new PostMapper(), params);
+	}
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 }

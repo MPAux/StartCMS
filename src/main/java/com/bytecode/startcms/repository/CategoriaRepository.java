@@ -17,7 +17,7 @@ import com.bytecode.startcms.model.Categoria;
 
 import jakarta.annotation.PostConstruct;
 
-//@Repository
+@Repository
 public class CategoriaRepository implements CategoriaRep {
 	Log log = LogFactory.getLog(getClass());
 	@Autowired
@@ -33,7 +33,19 @@ public class CategoriaRepository implements CategoriaRep {
 	@Override
 	public boolean save(Categoria categoria) {
 		log.info("Inside CategoriaRepository save method");
-		String sql = String.format("insert into categoria(Nombre, Descripcion, CategoriaSuperior) values ('%s', '%s', '%d')", categoria.getNombre(), categoria.getDescripcion(), categoria.getCategoriaSuperior());
+		
+		boolean tieneCategoriaSuperior = categoria.getCategoriaSuperior()>0;
+		String sql = "insert into categoria(Nombre, Descripcion"
+				+ (tieneCategoriaSuperior ? ", CategoriaSuperior" : "")
+				+ ") values ('%s', '%s'"
+				+ (tieneCategoriaSuperior ? ", '%d'" : "")
+				+ ")";
+		if(tieneCategoriaSuperior) {
+			sql = String.format(sql, categoria.getNombre(), categoria.getDescripcion(), categoria.getCategoriaSuperior());
+		} else {
+			sql = String.format(sql, categoria.getNombre(), categoria.getDescripcion());
+		}
+		
 		try {
 			jdbcTemplate.execute(sql);
 		} catch (DataAccessException e) {
@@ -47,15 +59,31 @@ public class CategoriaRepository implements CategoriaRep {
 	@Override
 	public boolean update(Categoria categoria) {
 		if(categoria.getIdCategoria() > 0) {
-			String sql = String.format(
-					"update categoria set Nombre='%s', Descripcion='%s', CategoriaSuperior = '%d' where IdCategoria = '%d'",
-					categoria.getNombre(), categoria.getDescripcion(), categoria.getCategoriaSuperior(), categoria.getIdCategoria()
-					);
+			long id = categoria.getIdCategoria();
+			boolean tieneCategoriaSuperior = categoria.getCategoriaSuperior() > 0;
+			String sql = "update categoria set Nombre='%s', Descripcion='%s'"
+					+ (tieneCategoriaSuperior ? ", CategoriaSuperior = '%d'" : "")
+					+ " where IdCategoria = '%d'";
+			if(tieneCategoriaSuperior) {
+				sql = String.format(
+						sql,
+						categoria.getNombre(), categoria.getDescripcion(), categoria.getCategoriaSuperior(), id
+						);
+			} else {
+				sql = String.format(
+						sql,
+						categoria.getNombre(), categoria.getDescripcion(), id
+						);	
+			}
+			
 			try {
-				jdbcTemplate.execute(sql);
-				return true;
+				int rowsAffected = jdbcTemplate.update(sql);
+				if(rowsAffected > 0) {
+					return true;
+				}
+				log.error("No se actualizó ninguna fila con la id "+id);
 			} catch (DataAccessException e) {
-				log.error("Hubo un problema actualizando en la BD los datos de la tabla "+this.getClass()+" - Id: "+categoria.getIdCategoria());
+				log.error("Hubo un problema actualizando en la BD los datos de la tabla "+this.getClass()+" - Id: "+id);
 				e.printStackTrace();
 			}
 		} else {
