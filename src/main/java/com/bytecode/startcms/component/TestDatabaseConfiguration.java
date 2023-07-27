@@ -16,7 +16,7 @@ import com.bytecode.startcms.repository.PostRepository;
 import com.bytecode.startcms.repository.UsuarioMetadataRepository;
 import com.bytecode.startcms.repository.UsuarioRepository;
 
-@Configuration
+//@Configuration
 public class TestDatabaseConfiguration {
     @Bean
     public DataSource getDataSource() {
