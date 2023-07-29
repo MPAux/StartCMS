@@ -13,6 +13,30 @@
 <div class="container">
     <div class="h1">Categoria</div>
     <div th:replace="~{@{administrator/components/message_welcome}}"></div>
+
+    <div class="row">
+        <div class="col-12">
+            <p th:if="${#strings.toString(param.view_name) == 'new'}" th:text="${param.view_name}"></p>
+        </div>
+        <div th:if="${#strings.toString(param.view_name) == 'new' || #strings.toString(param.view_name) == 'update'}" class="col-12">
+            <form th:action="@{/admin/categoria}" th:method="post" th:object="${categoria}">
+                <input type="hidden" th:field="*{idCategoria}" />
+                <div class="form-group">
+                    <label for="inpurNombre">Nombre</label>
+                    <input type="text" class="form-control" th:value="*{nombre}" th:field="*{nombre}" id="inputNombre" name="inputNombre" />
+                </div>
+                <div class="form-group">
+                    <label for="inpurDescripcion">Descripcion</label>
+                    <input type="text" class="form-control" th:value="*{descripcion}" th:field="*{descripcion}" id="inputDescripcion" name="inputDescripcion" />
+                </div>
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="reset" class="btn btn-primary">Reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
 </div>
 
     <div th:replace="~{@{administrator/components/script}}"></div>
