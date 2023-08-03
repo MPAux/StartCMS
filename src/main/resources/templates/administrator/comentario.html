@@ -11,10 +11,11 @@
 <div th:replace="~{@{administrator/components/nav}}"></div>
 
 <div class="container">
-    <div class="h1">Categoria</div>
+    <div class="h1">Comentarios</div>
     <div th:replace="~{@{administrator/components/message_welcome}}"></div>
 
     <div class="row">
+        <!--
         <div class="col-12" th:if="${#strings.toString(param.view_name) == null || #strings.toString(param.view_name) == 'all'}">
             <table class="table">
                 <thead class="table-primary">
@@ -23,24 +24,20 @@
                     <th scope="col">Nombre</th>
                     <th scope="col">Descripcion</th>
                     <th scope="col">Fecha</th>
-                    <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="categoria : ${categorias}">
-                        <th scope="row" th:text="${categoria.getIdCategoria()}"></th>
-                        <td th:text="${categoria.getNombre()}"></td>
-                        <td th:text="${categoria.getDescripcion()}"></td>
-                        <td th:text="${#dates.format(categoria.getFecha(), 'dd-MM-yyyy HH:mm')}"></td>
-                        <td>
-                            <button class="btn btn-warning">
-                                <a class="text-white text-decoration-none" th:href="'/admin/categoria?view_name=update&id=' + ${categoria.getIdCategoria()}">Editar</a>
-                            </button>             
-                        </td>
+                    <th scope="row" th:text="${categoria.getIdCategoria()}"></th>
+                    <td th:text="${categoria.getNombre()}"></td>
+                    <td th:text="${categoria.getDescripcion()}"></td>
+                    <td th:text="${#dates.format(categoria.getFecha(), 'dd-MM-yyyy HH:mm')}"></td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        -->
+        <!--
         <div th:if="${#strings.toString(param.view_name) == 'new' || #strings.toString(param.view_name) == 'update'}" class="col-12">
             <form th:action="@{/admin/categoria}" th:method="post" th:object="${categoria}">
                 <input type="hidden" th:field="*{idCategoria}" />
@@ -58,6 +55,7 @@
                 </div>
             </form>
         </div>
+        -->
     </div>
     
 </div>

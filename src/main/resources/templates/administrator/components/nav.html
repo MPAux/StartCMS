@@ -14,11 +14,29 @@
                 <a class="nav-link" th:classappend="(${requestUri} == '/admin/categoria') ? 'active' : ''" th:href="@{/admin/categoria}">Categorías</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" th:classappend="(${requestUri} == '/admin/usuario') ? 'active' : ''" th:href="@{/admin/usuario}">Usuarios</a>
+                <a class="nav-link" th:classappend="(${requestUri} == '/admin/publicacion') ? 'active' : ''" th:href="@{/admin/publicacion}">Publicaciones</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" th:classappend="(${requestUri} == '/admin/publicacion') ? 'active' : ''" th:href="@{/admin/publicacion}">Publicación</a>
+                <a class="nav-link" th:classappend="(${requestUri} == '/admin/comentario') ? 'active' : ''" th:href="@{/admin/comentario}">Comentarios</a>
               </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Gestión de Usuarios
+                </a>
+                <ul class="dropdown-menu">
+                  <li class="nav-item">
+                    <a class="nav-link text-center" th:classappend="(${requestUri} == '/admin/usuario') ? 'active' : ''" th:href="@{/admin/usuario}">Grupos</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-center" th:classappend="(${requestUri} == '/admin/usuario') ? 'active' : ''" th:href="@{/admin/usuario}">Usuarios</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link text-center" th:classappend="(${requestUri} == '/admin/usuario') ? 'active' : ''" th:href="@{/admin/usuario}">Permisos</a>
+                  </li>
+                </ul>
+              </li>
+
             </ul>
           </div>
         </div>
