@@ -7,34 +7,33 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import com.bytecode.startcms.model.Post;
-import com.bytecode.startcms.repository.PostRepository;
-
+import com.bytecode.startcms.model.Comentario;
+import com.bytecode.startcms.repository.ComentarioRepository;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("/admin/publicacion")
-public class PublicacionController {
+@RequestMapping("/admin/comentario")
+public class ComentarioController {
 	@Autowired
-	PostRepository repository = new PostRepository();
+	ComentarioRepository repository = new ComentarioRepository();
 	
 	@GetMapping("")
 	public ModelAndView getHome(
 			@RequestParam(defaultValue = "all", required = false) String view_name,
 			@RequestParam(defaultValue = "0", required = false) int id
 			) {
-		ModelAndView modelAndView = new ModelAndView("administrator/publicacion");
+		ModelAndView modelAndView = new ModelAndView("administrator/comentario");
 		switch(view_name) {
 		case "all":
 			break;
 		case "new":
-			modelAndView.addObject("publicacion", new Post());
+			modelAndView.addObject("comentario", new Comentario());
 			break;
 		case "update":
-			modelAndView.addObject("publicacion", repository.findById(id));
+			modelAndView.addObject("comentario", repository.findById(id));
 			break;
 		}
-		return  modelAndView;
+		return modelAndView;
 	}
 	
 	@ModelAttribute("requestUri")

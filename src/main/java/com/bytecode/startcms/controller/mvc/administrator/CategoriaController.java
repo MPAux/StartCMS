@@ -1,6 +1,7 @@
 package com.bytecode.startcms.controller.mvc.administrator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,12 +24,14 @@ public class CategoriaController {
 	@GetMapping("")
 	public ModelAndView getHome(
 			@RequestParam(defaultValue = "all", required = false) String view_name,
-			@RequestParam(defaultValue = "0", required = false) int id
+			@RequestParam(defaultValue = "0", required = false) int id,
+			Pageable pageable
 			) {
 		ModelAndView modelAndView = new ModelAndView("administrator/categoria");
 		
 		switch(view_name) {
 		case "all":
+			modelAndView.addObject("categorias", repository.findAll(pageable));
 			break;
 		case "new":
 			modelAndView.addObject("categoria", new Categoria());
