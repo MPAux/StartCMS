@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categoria</title>
+    <title>Permisos</title>
 	<div th:replace="~{@{administrator/components/style}}"></div>
 </head>
 <body>
 <div th:replace="~{@{administrator/components/nav}}"></div>
 
 <div class="container">
-    <div class="h1">Categoria</div>
+    <div class="h1">Permisos</div>
     <div th:replace="~{@{administrator/components/message_welcome}}"></div>
 
     <div class="row">
@@ -21,20 +21,16 @@
                     <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nombre</th>
-                    <th scope="col">Descripcion</th>
-                    <th scope="col">Fecha</th>
                     <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="categoria : ${categorias}">
-                        <th scope="row" th:text="${categoria.getIdCategoria()}"></th>
-                        <td th:text="${categoria.getNombre()}"></td>
-                        <td th:text="${categoria.getDescripcion()}"></td>
-                        <td th:text="${#dates.format(categoria.getFecha(), 'dd-MM-yyyy HH:mm')}"></td>
-                        <td>
+                    <tr th:each="permiso : ${permisos}">
+                        <th scope="row" th:text="${permiso.getIdPermiso()}"></th>
+                        <td th:text="${permiso.getNombre()}"></td>
+                        <td class="d-flex justify-content-end">
                             <button class="btn btn-warning">
-                                <a class="text-white text-decoration-none" th:href="'/admin/categoria?view_name=update&id=' + ${categoria.getIdCategoria()}">Editar</a>
+                                <a class="text-white text-decoration-none" th:href="'/admin/permiso?view_name=update&id=' + ${permiso.getIdPermiso()}">Editar</a>
                             </button>             
                         </td>
                     </tr>
@@ -42,19 +38,15 @@
             </table>
 
             <button class="btn btn-primary">
-                <a class="text-white text-decoration-none" th:href="'/admin/categoria?view_name=new'">Agregar Categoría</a>
+                <a class="text-white text-decoration-none" th:href="'/admin/permiso?view_name=new'">Agregar Permiso</a>
             </button>             
         </div>
         <div th:if="${#strings.toString(param.view_name) == 'new' || #strings.toString(param.view_name) == 'update'}" class="col-12">
-            <form th:action="@{/admin/categoria}" th:method="post" th:object="${categoria}">
-                <input type="hidden" th:field="*{idCategoria}" />
+            <form th:action="@{/admin/permiso}" th:method="post" th:object="${permiso}">
+                <input type="hidden" th:field="*{idPermiso}" />
                 <div class="form-group">
-                    <label for="inpurNombre">Nombre</label>
+                    <label for="inputNombre">Nombre</label>
                     <input type="text" class="form-control" th:value="*{nombre}" th:field="*{nombre}" id="inputNombre" name="inputNombre" />
-                </div>
-                <div class="form-group">
-                    <label for="inpurDescripcion">Descripcion</label>
-                    <input type="text" class="form-control" th:value="*{descripcion}" th:field="*{descripcion}" id="inputDescripcion" name="inputDescripcion" />
                 </div>
                 <div class="form-group mt-4">
                     <button type="submit" class="btn btn-primary">Guardar</button>

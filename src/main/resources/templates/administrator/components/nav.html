@@ -1,5 +1,5 @@
 
-     <nav class="navbar navbar-expand-lg bg-body-tertiary mb-5">
+     <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
         <div class="container-fluid">
           <a class="navbar-brand" th:href="@{/admin/}">StartCMS</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,15 +24,15 @@
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Gestión de Usuarios
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu bg-primary text-white">
                   <li class="nav-item">
-                    <a class="nav-link text-center" th:classappend="(${requestUri} == '/admin/usuario') ? 'active' : ''" th:href="@{/admin/usuario}">Grupos</a>
+                    <a class="nav-link text-center" th:classappend="(${requestUri} == '/admin/grupo') ? 'active' : ''" th:href="@{/admin/grupo}">Grupos</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link text-center" th:classappend="(${requestUri} == '/admin/usuario') ? 'active' : ''" th:href="@{/admin/usuario}">Usuarios</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link text-center" th:classappend="(${requestUri} == '/admin/usuario') ? 'active' : ''" th:href="@{/admin/usuario}">Permisos</a>
+                    <a class="nav-link text-center" th:classappend="(${requestUri} == '/admin/permiso') ? 'active' : ''" th:href="@{/admin/permiso}">Permisos</a>
                   </li>
                 </ul>
               </li>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grupos</title>
+	<div th:replace="~{@{administrator/components/style}}"></div>
+</head>
+<body>
+<div th:replace="~{@{administrator/components/nav}}"></div>
+
+<div class="container">
+    <div class="h1">Grupos</div>
+    <div th:replace="~{@{administrator/components/message_welcome}}"></div>
+
+    <div class="row">
+        <div class="col-12" th:if="${#strings.toString(param.view_name) == null || #strings.toString(param.view_name) == 'all'}">
+            <table class="table">
+                <thead class="table-primary">
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="grupo : ${grupos}">
+                        <th scope="row" th:text="${grupo.getIdGrupo()}"></th>
+                        <td th:text="${grupo.getNombre()}"></td>
+                        <td class="d-flex justify-content-end">
+                            <!--
+                            <button class="btn btn-primary me-1">
+                                <a class="text-white text-decoration-none" th:href="'/admin/grupopermiso?id=' + ${grupo.getIdGrupo()}">Permisos</a>
+                            </button>
+                            --> 
+                            <button class="btn btn-warning">
+                                <a class="text-white text-decoration-none" th:href="'/admin/grupo?view_name=update&id=' + ${grupo.getIdGrupo()}">Editar</a>
+                            </button>             
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button class="btn btn-primary">
+                <a class="text-white text-decoration-none" th:href="'/admin/grupo?view_name=new'">Agregar Grupo</a>
+            </button>             
+        </div>
+        <div th:if="${#strings.toString(param.view_name) == 'new' || #strings.toString(param.view_name) == 'update'}" class="col-12">
+            <form th:action="@{/admin/grupo}" th:method="post" th:object="${grupo}">
+                <input type="hidden" th:field="*{idGrupo}" />
+                <div class="form-group">
+                    <label for="inputNombre">Nombre</label>
+                    <input type="text" class="form-control" th:value="*{nombre}" th:field="*{nombre}" id="inputNombre" name="inputNombre" />
+                </div>
+                <div class="form-group" th:if="${#strings.toString(param.view_name) == 'update'}">
+                    <label for="permisos">Permisos</label>
+                    <table class="table" id="permisos">
+                        <thead class="table-primary">
+                            <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="permiso : ${permisos}">
+                                <th scope="row" th:text="${permiso.getIdPermiso()}"></th>
+                                <td th:text="${permiso.getNombre()}"></td>
+                                <td class="d-flex justify-content-end">
+                                    <!--
+                                    <button class="btn btn-primary me-1">
+                                        <a class="text-white text-decoration-none" th:href="'/admin/grupopermiso?id=' + ${grupo.getIdGrupo()}">Permisos</a>
+                                    </button>
+                                     
+                                    <button class="btn btn-warning">
+                                        <a class="text-white text-decoration-none" th:href="'/admin/grupo?view_name=update&id=' + ${grupo.getIdGrupo()}">Editar</a>
+                                    </button>
+                                    -->             
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPermisos">Agregar Permiso</button>
+                    <button type="reset" class="btn btn-primary">Reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+<!-- Modal Permisos-->
+<div class="modal fade" id="modalPermisos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Selecciona Permiso</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <table class="table" id="permisosDisponibles">
+                <thead class="table-primary">
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="permiso : ${permisosDisponibles}">
+                        <th scope="row" th:text="${permiso.getIdPermiso()}"></th>
+                        <td th:text="${permiso.getNombre()}"></td>
+                         
+                        <td class="d-flex justify-content-end">
+                            <form th:action="@{/admin/grupo/addPermiso}" th:method="post">
+                                <input type="hidden" name="idGrupo" id="idGrupo" th:value="${grupo.getIdGrupo()}">
+                                <input type="hidden" name="idPermiso" id="idPermiso" th:value="${permiso.getIdPermiso()}">
+                                <button class="btn btn-success">
+                                    Agregar
+                                    <!--<a class="text-white text-decoration-none" th:href="'/admin/grupo?view_name=update&id=' + ${grupo.getIdGrupo()}">Agregar</a>-->
+                                </button>
+                            </form> 
+                                        
+                        </td>
+                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Fin Modal Permisos-->
+
+    <div th:replace="~{@{administrator/components/script}}"></div>
+</body>
+</html>

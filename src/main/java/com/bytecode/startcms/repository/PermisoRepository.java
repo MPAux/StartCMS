@@ -78,6 +78,19 @@ public class PermisoRepository implements PermisoRep {
 		Object[] params = {Id};
 		return jdbcTemplate.queryForObject("select * from permiso where IdPermiso = ?", new PermisoMapper(), params);
 	}
+	
+	@Override
+	public List<Permiso> findByIdGrupo(int idGrupo) {
+		Object[] params = {idGrupo};
+		// SELECT p.* FROM grupo_permiso gp INNER JOIN permiso p ON gp.IdPermiso = p.IdPermiso WHERE gp.IdGrupo = ?;
+		return jdbcTemplate.query("SELECT p.* FROM grupo_permiso gp INNER JOIN permiso p ON gp.IdPermiso = p.IdPermiso WHERE gp.IdGrupo = ?", new PermisoMapper(), params);
+	}
+	
+	@Override
+	public List<Permiso> findByNotIdGrupo(int idGrupo) {
+		Object[] params = {idGrupo};
+		return jdbcTemplate.query("SELECT * FROM permiso p WHERE IdPermiso NOT IN (SELECT IdPermiso FROM grupo_permiso WHERE IdGrupo = ?)", new PermisoMapper(), params);
+	}
 
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
@@ -86,4 +99,7 @@ public class PermisoRepository implements PermisoRep {
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
+
+
+
 }

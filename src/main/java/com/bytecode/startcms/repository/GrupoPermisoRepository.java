@@ -55,7 +55,7 @@ public class GrupoPermisoRepository implements GrupoPermisoRep {
 	}
 
 	@Override
-	public GrupoPermiso findById(int Id) {
+	public GrupoPermiso findById(int id) {
 		//Check this method id
 //		Object[] params = {Id};
 //		log.info("Getting GrupoPermiso by IdGrupo: "+Id);

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,69 @@
 <div class="container">
     <div class="h1">Usuarios</div>
     <div th:replace="~{@{administrator/components/message_welcome}}"></div>
+
+    <div class="row">
+        <div class="col-12" th:if="${#strings.toString(param.view_name) == null || #strings.toString(param.view_name) == 'all'}">
+            <table class="table">
+                <thead class="table-primary">
+                    <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Grupo</th>
+                    <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="usuario : ${usuarios}">
+                        <th scope="row" th:text="${usuario.getIdUsuario()}"></th>
+                        <td th:text="${usuario.getNombre()}"></td>
+                        <td th:text="${usuario.getApellido()}"></td>
+                        <td th:text="${usuario.getCorreo()}"></td>
+                        <td th:text="${mapaGrupos.get(usuario.getIdGrupo())}"></td>
+                        <td>
+                            <button class="btn btn-warning">
+                                <a class="text-white text-decoration-none" th:href="'/admin/usuario?view_name=update&id=' + ${usuario.getIdUsuario()}">Editar</a>
+                            </button>             
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button class="btn btn-primary">
+                <a class="text-white text-decoration-none" th:href="'/admin/usuario?view_name=new'">Agregar Usuario</a>
+            </button>             
+        </div>
+        <div th:if="${#strings.toString(param.view_name) == 'new' || #strings.toString(param.view_name) == 'update'}" class="col-12">
+            <form th:action="@{/admin/usuario}" th:method="post" th:object="${usuario}">
+                <input type="hidden" th:field="*{idUsuario}" />
+                <div class="form-group">
+                    <label for="inputNombre">Nombre</label>
+                    <input type="text" class="form-control" th:value="*{nombre}" th:field="*{nombre}" id="inputNombre" name="inputNombre" />
+                </div>
+                <div class="form-group">
+                    <label for="inputNombre">Apellido</label>
+                    <input type="text" class="form-control" th:value="*{apellido}" th:field="*{apellido}" id="inputApellido" name="inputApellido" />
+                </div>
+                <div class="form-group">
+                    <label for="inputNombre">Correo</label>
+                    <input type="text" class="form-control" th:value="*{correo}" th:field="*{correo}" id="inputCorreo" name="inputCorreo" />
+                </div>
+                <div class="form-group">
+                    <label for="inputNombre">Grupo</label>
+                    <select class="form-control" name="selectGrupo" id="selectGrupo" th:value="*{idGrupo}" th:field="*{idGrupo}">
+                        <option th:each="grupo : ${grupos}" th:value="${grupo.getIdGrupo()}" th:text="${grupo.getNombre()}"></option>
+                    </select>
+                </div>
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="reset" class="btn btn-primary">Reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
 </div>
 
     <div th:replace="~{@{administrator/components/script}}"></div>

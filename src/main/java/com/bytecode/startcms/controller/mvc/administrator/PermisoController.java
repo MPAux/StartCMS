@@ -9,17 +9,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.bytecode.startcms.model.Categoria;
-import com.bytecode.startcms.repository.CategoriaRepository;
+import com.bytecode.startcms.model.Permiso;
+import com.bytecode.startcms.repository.PermisoRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("/admin/categoria")
-public class CategoriaController {
+@RequestMapping("/admin/permiso")
+public class PermisoController {
 	@Autowired
-	CategoriaRepository repository = new CategoriaRepository();
+	PermisoRepository repository;
 	
 	@GetMapping("")
 	public ModelAndView getHome(
@@ -27,17 +26,17 @@ public class CategoriaController {
 			@RequestParam(defaultValue = "0", required = false) int id,
 			Pageable pageable
 			) {
-		ModelAndView modelAndView = new ModelAndView("administrator/categoria");
+		ModelAndView modelAndView = new ModelAndView("administrator/permiso");
 		
 		switch(view_name) {
 		case "all":
-			modelAndView.addObject("categorias", repository.findAll(pageable));
+			modelAndView.addObject("permisos", repository.findAll(pageable));
 			break;
 		case "new":
-			modelAndView.addObject("categoria", new Categoria());
+			modelAndView.addObject("permiso", new Permiso());
 			break;
 		case "update":
-			modelAndView.addObject("categoria", repository.findById(id));
+			modelAndView.addObject("permiso", repository.findById(id));
 			break;
 		}
 		
@@ -51,13 +50,13 @@ public class CategoriaController {
 	
 	@PostMapping
 	public String newAndUpdate(
-	@ModelAttribute Categoria categoria
+	@ModelAttribute Permiso permiso
 	) {	
-		if(categoria.getIdCategoria() > 0) {
-			repository.update(categoria);
+		if(permiso.getIdPermiso() > 0) {
+			repository.update(permiso);
 		} else {
-			repository.save(categoria);
+			repository.save(permiso);
 		}
-		return "redirect:/admin/categoria";
+		return "redirect:/admin/permiso";
 	}
 }
