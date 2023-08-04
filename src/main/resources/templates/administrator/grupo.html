@@ -29,11 +29,6 @@
                         <th scope="row" th:text="${grupo.getIdGrupo()}"></th>
                         <td th:text="${grupo.getNombre()}"></td>
                         <td class="d-flex justify-content-end">
-                            <!--
-                            <button class="btn btn-primary me-1">
-                                <a class="text-white text-decoration-none" th:href="'/admin/grupopermiso?id=' + ${grupo.getIdGrupo()}">Permisos</a>
-                            </button>
-                            --> 
                             <button class="btn btn-warning">
                                 <a class="text-white text-decoration-none" th:href="'/admin/grupo?view_name=update&id=' + ${grupo.getIdGrupo()}">Editar</a>
                             </button>             
@@ -67,16 +62,7 @@
                             <tr th:each="permiso : ${permisos}">
                                 <th scope="row" th:text="${permiso.getIdPermiso()}"></th>
                                 <td th:text="${permiso.getNombre()}"></td>
-                                <td class="d-flex justify-content-end">
-                                    <!--
-                                    <button class="btn btn-primary me-1">
-                                        <a class="text-white text-decoration-none" th:href="'/admin/grupopermiso?id=' + ${grupo.getIdGrupo()}">Permisos</a>
-                                    </button>
-                                     
-                                    <button class="btn btn-warning">
-                                        <a class="text-white text-decoration-none" th:href="'/admin/grupo?view_name=update&id=' + ${grupo.getIdGrupo()}">Editar</a>
-                                    </button>
-                                    -->             
+                                <td class="d-flex justify-content-end">        
                                 </td>
                             </tr>
                         </tbody>
@@ -123,7 +109,6 @@
                                 <input type="hidden" name="idPermiso" id="idPermiso" th:value="${permiso.getIdPermiso()}">
                                 <button class="btn btn-success">
                                     Agregar
-                                    <!--<a class="text-white text-decoration-none" th:href="'/admin/grupo?view_name=update&id=' + ${grupo.getIdGrupo()}">Agregar</a>-->
                                 </button>
                             </form> 
                                         
@@ -135,7 +120,6 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <!--<button type="button" class="btn btn-primary">Save changes</button>-->
         </div>
       </div>
     </div>
