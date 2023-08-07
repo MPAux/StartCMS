@@ -1,5 +1,10 @@
 package com.bytecode.startcms.model;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 public class Post {
 	private long IdPost;
 	private String Titulo;
@@ -9,6 +14,7 @@ public class Post {
 	private long Categoria;
 	private String ImagenDestacada;
 	private String Tipo;
+	private Date Fecha;
 	
 	public long getIdPost() {
 		return IdPost;
@@ -57,5 +63,12 @@ public class Post {
 	}
 	public void setTipo(String tipo) {
 		Tipo = tipo;
+	}
+	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss", iso = ISO.DATE_TIME)
+	public Date getFecha() {
+		return Fecha;
+	}
+	public void setFecha(Date fecha) {
+		Fecha = fecha;
 	}
 }

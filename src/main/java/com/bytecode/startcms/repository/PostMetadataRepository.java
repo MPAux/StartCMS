@@ -78,6 +78,13 @@ public class PostMetadataRepository implements PostMetadataRep {
 		Object[] params = {Id};
 		return jdbcTemplate.queryForObject("select * from post_metadata where IdPostMetadata = ?", new PostMetadataMapper(), params);
 	}
+	
+	@Override
+	public PostMetadata findByPostIdAndKey(int postId, String key) {
+		Object[] params = {postId, key};
+		log.info("PostId "+postId + "; key: "+key);
+		return jdbcTemplate.queryForObject("select * from post_metadata where IdPost = ? and Clave like ?", new PostMetadataMapper(), params);
+	}
 
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
@@ -86,4 +93,5 @@ public class PostMetadataRepository implements PostMetadataRep {
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
+
 }

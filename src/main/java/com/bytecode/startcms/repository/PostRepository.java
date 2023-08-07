@@ -1,5 +1,9 @@
 package com.bytecode.startcms.repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -10,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.PreparedStatementCreatorFactory;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import com.bytecode.startcms.mapper.PostMapper;
 import com.bytecode.startcms.model.Post;
@@ -72,6 +79,39 @@ public class PostRepository implements PostRep {
 	public List<Post> findAll(Pageable pageable) {
 		return jdbcTemplate.query("select * from post", new PostMapper());
 	}
+	
+	@Override
+	public Post findOnSave(Post object) {
+		//Object[] parameters = {object.getTitulo(), object.getSlug(), object.getExtracto(), object.getIdUsuario(), object.getCategoria(), object.getImagenDestacada(), object.getTipo()};
+		String sql = "insert into post(Titulo, Slug, Extracto, IdUsuario, Categoria, ImagenDestacada, Tipo) values (?, ?, ?, ?, ?, ?, ?)";
+		int newId = 0;
+		GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+		jdbcTemplate.update(
+				  new PreparedStatementCreator() {
+				    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+				      PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				      ps.setString(1,object.getTitulo());
+				      ps.setString(2,object.getSlug());
+				      ps.setString(3,object.getExtracto());
+				      ps.setLong(4,object.getIdUsuario());
+				      ps.setLong(5, object.getCategoria());
+				      ps.setString(6,object.getImagenDestacada());
+				      ps.setString(7,object.getTipo());
+				      return ps;
+				    }
+				  }, keyHolder);
+		newId = keyHolder.getKey().intValue();
+		
+//		try {
+//			//newId = jdbcTemplate.update(sql, parameters, Statement.RETURN_GENERATED_KEYS);
+//			
+//		} catch (DataAccessException e) {
+//			log.error("Hubo un problema salvando en la BD los datos de la tabla "+this.getClass());
+//			e.printStackTrace();
+//			return null;
+//		}
+		return this.findById(newId);
+	}
 
 	@Override
 	public Post findById(int Id) {
@@ -86,4 +126,6 @@ public class PostRepository implements PostRep {
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
+
+
 }
