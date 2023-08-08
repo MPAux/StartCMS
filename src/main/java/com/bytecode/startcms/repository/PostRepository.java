@@ -77,7 +77,7 @@ public class PostRepository implements PostRep {
 
 	@Override
 	public List<Post> findAll(Pageable pageable) {
-		return jdbcTemplate.query("select * from post", new PostMapper());
+		return jdbcTemplate.query("select * from post order by Fecha desc", new PostMapper());
 	}
 	
 	@Override

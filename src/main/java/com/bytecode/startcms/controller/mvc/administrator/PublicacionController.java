@@ -66,7 +66,7 @@ public class PublicacionController {
 	) {	
 		PostMetadata meta_descripcion;
 		post.setIdUsuario(1);
-		post.setTipo("Pruebas");
+		post.setTipo("POST");
 		
 		if(post.getIdPost() > 0) {
 			repository.update(post);
