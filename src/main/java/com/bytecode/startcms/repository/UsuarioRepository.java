@@ -1,5 +1,6 @@
 package com.bytecode.startcms.repository;
 
+import java.text.NumberFormat;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -85,5 +86,12 @@ public class UsuarioRepository implements UsuarioRep {
 
 	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
+	}
+
+	@Override
+	public Usuario findByCorreo(String correo) {
+		correo = NumberFormat.Field.PERCENT + correo + NumberFormat.Field.PERCENT;
+		Object[] params = {correo};
+		return jdbcTemplate.queryForObject("select * from usuario where Correo like ?", new UsuarioMapper(), params);
 	}
 }
