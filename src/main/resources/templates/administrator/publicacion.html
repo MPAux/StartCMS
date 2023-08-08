@@ -31,7 +31,7 @@
                         <th scope="row" th:text="${publicacion.getIdPost()}"></th>
                         <td th:text="${publicacion.getTitulo()}"></td>
                         <td>
-                            <div th:text="${{#dates.format(publicacion.getFecha(), 'dd-MM-yyyy HH:mm')}}"></div>
+                            <!--<div th:text="${{#dates.format(publicacion.getFecha(), 'dd-MM-yyyy HH:mm')}}"></div>-->
                             <div th:text="${{publicacion.getFecha()}}"></div>
                         </td>
                         <td>

@@ -2,6 +2,8 @@ package com.bytecode.startcms.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import org.springframework.jdbc.core.RowMapper;
 
@@ -20,7 +22,13 @@ public class PostMapper implements RowMapper<Post> {
 		post.setCategoria(rs.getInt("Categoria"));
 		post.setImagenDestacada(rs.getString("ImagenDestacada"));
 		post.setTipo(rs.getString("Tipo"));
-		post.setFecha(rs.getDate("Fecha"));
+		Timestamp ts = rs.getTimestamp("Fecha");
+		if(ts != null) {
+			Date fecha = new Date(ts.getTime());
+			post.setFecha(fecha);
+		} else {
+			post.setFecha(ts);
+		}
 		return post;
 	}
 
